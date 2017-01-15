@@ -224,7 +224,7 @@ public class Plateau {
 
 
     public ArrayList<Territoire> AttributionTerritoire(ArrayList<Territoire> Listterritoires,ArrayList<Joueur> joueurs){
-        Random nombreAleatoire = new Random();
+
         int nbJoueurs = joueurs.size();
         ArrayList<Territoire> territoires = Listterritoires;
         int IDJoueur = 0;
@@ -240,8 +240,8 @@ public class Plateau {
         for(int i = 0; i< territoires.size(); i++){
             IDTerritoire = shuffle.get(i);
 
-            territoires.get(IDTerritoire).SetJoueur(joueurs.get(i));
-            if(IDJoueur < nbJoueurs) {
+            territoires.get(IDTerritoire).SetJoueur(joueurs.get(IDJoueur));
+            if(IDJoueur < nbJoueurs - 1) {
                 IDJoueur++;
             }
             else {
@@ -262,7 +262,7 @@ public class Plateau {
 
         ArrayList<Territoire> territoireJoueur = new ArrayList<Territoire>();
 
-        for(int i = 0; i < territoireJoueur.size(); i++){
+        for(int i = 0; i < territoires.size(); i++){
             if(territoires.get(i).Roi.IDJoueur == idJoueur){
                 territoireJoueur.add(territoires.get(i));
             }
@@ -286,6 +286,11 @@ public class Plateau {
         }
         return territoireVoisin;
     }
+
+
+
+
+
 
 
 }

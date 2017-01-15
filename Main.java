@@ -10,6 +10,8 @@ public class Main {
         Territoire territoireAttaque;
         Territoire territoiredefendu;
 
+
+
         Joueur Attaquant;
 
         Joueur Defenseur;
@@ -19,6 +21,7 @@ public class Main {
 
         plateau.AttributionTerritoire(plateau.ListeTerritoire, ListeJoueur);
 
+        plateau.ListeTerritoire = PlacementDesTroupesConsole(plateau,ListeJoueur);
 
         while(ListeJoueur.size() > 1){
 
@@ -29,6 +32,11 @@ public class Main {
 
             /*A changer */
             territoireAttaque = territoiresDuJoueur.get(1);
+
+            territoiresDuJoueur = plateau.GetTerritoireVoisin(territoireAttaque);
+
+            territoiredefendu = territoiresDuJoueur.get(1);
+
 
 
 
@@ -66,5 +74,29 @@ public class Main {
         }
 
         return joueurs;
+    }
+
+    public static ArrayList<Territoire> PlacementDesTroupesConsole(Plateau plateau, ArrayList<Joueur> joueurs)
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Placer vos troupes");
+        ArrayList<Territoire> territoiresDuJoueur = new ArrayList<Territoire>();
+        for(int i = 0; i< joueurs.size(); i++)
+        {
+            System.out.println("Joueur" + i);
+            territoiresDuJoueur = plateau.ListeTerritoirePourUnJoueur(plateau.ListeTerritoire,joueurs.get(i).IDJoueur);
+
+            for(int o = 0; o < territoiresDuJoueur.size(); o++){
+                System.out.println("Territoire " + territoiresDuJoueur.get(o).IDTerritoire);
+                territoiresDuJoueur.get(o).SetTroupe(Integer.parseInt(sc.nextLine()));
+
+            }
+
+
+
+
+        }
+
+        return plateau.ListeTerritoire;
     }
 }
