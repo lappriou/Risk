@@ -14,6 +14,7 @@ public class Main {
 
         Joueur Defenseur;
 
+        ArrayList<Territoire> territoiresDuJoueur;
         int nextJoueur = 0;
 
         plateau.AttributionTerritoire(plateau.ListeTerritoire, ListeJoueur);
@@ -22,6 +23,13 @@ public class Main {
         while(ListeJoueur.size() > 1){
 
             Attaquant = ListeJoueur.get(nextJoueur);
+
+            territoiresDuJoueur = plateau.ListeTerritoirePourUnJoueur(plateau.ListeTerritoire, Attaquant.IDJoueur);
+
+
+            /*A changer */
+            territoireAttaque = territoiresDuJoueur.get(1);
+
 
 
 

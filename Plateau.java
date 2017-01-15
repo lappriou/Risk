@@ -258,7 +258,7 @@ public class Plateau {
     }
 
 
-    public ArrayList<Territoire> ListeTerritoirePourUnJoueur(int idJoueur, ArrayList<Territoire> territoires){
+    public ArrayList<Territoire> ListeTerritoirePourUnJoueur( ArrayList<Territoire> territoires, int idJoueur){
 
         ArrayList<Territoire> territoireJoueur = new ArrayList<Territoire>();
 
@@ -267,9 +267,25 @@ public class Plateau {
                 territoireJoueur.add(territoires.get(i));
             }
 
-            return territoireJoueur;
-        }
 
+        }
+        return territoireJoueur;
 
     }
+
+
+    public ArrayList<Territoire> GetTerritoireVoisin(Territoire territoire){
+
+        ArrayList<Territoire> territoireVoisin = new ArrayList<Territoire>();
+
+        for(int i = 0; i< MatriceVoisin.length; i++)
+        {
+            if(MatriceVoisin[territoire.IDTerritoire][i] == 1){
+                territoireVoisin.add(ListeTerritoire.get(i));
+            }
+        }
+        return territoireVoisin;
+    }
+
+
 }
