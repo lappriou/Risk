@@ -3,13 +3,14 @@
  */
 public class Joueur {
     String surname;
-
+    int IDJoueur;
     String Couleur;
 
-    public Joueur(String surname, String Couleur)
+    public Joueur(int idJoueur,String surname, String Couleur)
     {
         this.surname = surname;
         this.Couleur = Couleur;
+        this.IDJoueur = idJoueur;
     }
 
 

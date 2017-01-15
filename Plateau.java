@@ -7,7 +7,7 @@ public class Plateau {
 
     int nombreTerritoire = 42;
     int[][] MatriceVoisin = new int[nombreTerritoire][nombreTerritoire];
-    Territoire[] ListeTerritoire = new Territoire[nombreTerritoire];
+    ArrayList<Territoire> ListeTerritoire = new ArrayList<Territoire>();
 
 
     public Plateau(){
@@ -210,11 +210,11 @@ public class Plateau {
         return territoire;
     }
 
-    public Territoire[] GenererTerritoire(Territoire[] ListeTerritoire){
+    public ArrayList<Territoire> GenererTerritoire(ArrayList<Territoire> ListeTerritoire){
 
-        Territoire[] territoires = ListeTerritoire;
+        ArrayList<Territoire> territoires = ListeTerritoire;
         for(int i = 0; i< nombreTerritoire; i++){
-            territoires[i] = new Territoire();
+            territoires.add(new Territoire(i));
         }
 
 
@@ -223,24 +223,24 @@ public class Plateau {
     }
 
 
-    public Territoire[] AttributionTerritoire(Territoire[] Listterritoires,Joueur[] joueurs){
+    public Territoire[] AttributionTerritoire(ArrayList<Territoire> Listterritoires,ArrayList<Joueur> joueurs){
         Random nombreAleatoire = new Random();
-        int nbJoueurs = joueurs.length;
-        Territoire[] territoires = Listterritoires;
+        int nbJoueurs = joueurs.size();
+        ArrayList<Territoire> territoires = Listterritoires;
         int IDJoueur = 0;
         int IDTerritoire;
-        ArrayList<Integer> shuffle = new ArrayList<Integer>(territoires.length);
+        ArrayList<Integer> shuffle = new ArrayList<Integer>(territoires.size());
 
-        for(int i = 0; i < territoires.length; i++)
+        for(int i = 0; i < territoires.size(); i++)
         {
             shuffle.add(i);
         }
         Collections.shuffle(shuffle);
         System.out.println("TestAttribution");
-        for(int i = 0; i< territoires.length; i++){
+        for(int i = 0; i< territoires.size(); i++){
             IDTerritoire = shuffle.get(i);
 
-            territoires[IDTerritoire].SetJoueur(joueurs[IDJoueur]);
+            territoires.get(IDTerritoire).SetJoueur(joueurs.get(i));
             if(IDJoueur < nbJoueurs) {
                 IDJoueur++;
             }

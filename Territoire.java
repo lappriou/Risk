@@ -4,9 +4,11 @@
 public class Territoire {
     String Nom;
     Joueur Roi;
+    int IDTerritoire;
     int troupe;
 
-    public Territoire(){
+    public Territoire(int idTerritoire){
+        this.IDTerritoire = idTerritoire;
         this.troupe = 0;
     }
 

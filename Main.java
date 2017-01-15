@@ -1,14 +1,31 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
 
-        Joueur[] ListeJoueur = chargerJoueurConsole();
+        ArrayList<Joueur> ListeJoueur = chargerJoueurConsole();
         Plateau plateau = new Plateau();
+
+        Territoire territoireAttaque;
+        Territoire defendu;
+
+        Joueur Attaquant;
+
+        Joueur Defenseur;
+
+        int nextJoueur = 0;
 
         plateau.AttributionTerritoire(plateau.ListeTerritoire, ListeJoueur);
 
 
+        while(ListeJoueur.size() > 1){
+
+            Attaquant = ListeJoueur.get(nextJoueur);
+
+
+
+        }
 
 
     }
@@ -17,7 +34,7 @@ public class Main {
 
 
 
-    public static Joueur[] chargerJoueurConsole()
+    public static ArrayList<Joueur> chargerJoueurConsole()
     {
         Scanner sc = new Scanner(System.in);
 
@@ -26,7 +43,7 @@ public class Main {
         String str = sc.nextLine();
 
         int nombreJoueur = Integer.parseInt(str);
-        Joueur[] joueurs = new Joueur[nombreJoueur];
+        ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
         for (int i = 0; i < nombreJoueur; i++) {
             System.out.println("Joueur" + i);
             System.out.println("Surnom");
@@ -34,7 +51,7 @@ public class Main {
             System.out.println("Couleur");
             String strCouleur = sc.nextLine();
 
-            joueurs[i] = new Joueur(strSurnom,strCouleur);
+            joueurs.add(new Joueur(i,strSurnom,strCouleur));
         }
 
         return joueurs;
