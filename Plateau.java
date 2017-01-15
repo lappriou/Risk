@@ -223,7 +223,7 @@ public class Plateau {
     }
 
 
-    public Territoire[] AttributionTerritoire(ArrayList<Territoire> Listterritoires,ArrayList<Joueur> joueurs){
+    public ArrayList<Territoire> AttributionTerritoire(ArrayList<Territoire> Listterritoires,ArrayList<Joueur> joueurs){
         Random nombreAleatoire = new Random();
         int nbJoueurs = joueurs.size();
         ArrayList<Territoire> territoires = Listterritoires;
@@ -257,4 +257,19 @@ public class Plateau {
 
     }
 
+
+    public ArrayList<Territoire> ListeTerritoirePourUnJoueur(int idJoueur, ArrayList<Territoire> territoires){
+
+        ArrayList<Territoire> territoireJoueur = new ArrayList<Territoire>();
+
+        for(int i = 0; i < territoireJoueur.size(); i++){
+            if(territoires.get(i).Roi.IDJoueur == idJoueur){
+                territoireJoueur.add(territoires.get(i));
+            }
+
+            return territoireJoueur;
+        }
+
+
+    }
 }

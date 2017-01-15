@@ -8,7 +8,7 @@ public class Main {
         Plateau plateau = new Plateau();
 
         Territoire territoireAttaque;
-        Territoire defendu;
+        Territoire territoiredefendu;
 
         Joueur Attaquant;
 
@@ -23,6 +23,9 @@ public class Main {
 
             Attaquant = ListeJoueur.get(nextJoueur);
 
+
+
+            nextJoueur ++;
 
 
         }
