@@ -258,12 +258,12 @@ public class Plateau {
     }
 
 
-    public ArrayList<Territoire> ListeTerritoirePourUnJoueur( ArrayList<Territoire> territoires, int idJoueur){
+    public ArrayList<Territoire> ListeTerritoirePourUnJoueur( ArrayList<Territoire> territoires, Joueur joueur){
 
         ArrayList<Territoire> territoireJoueur = new ArrayList<Territoire>();
 
         for(int i = 0; i < territoires.size(); i++){
-            if(territoires.get(i).Roi.IDJoueur == idJoueur){
+            if(territoires.get(i).Roi.IDJoueur == joueur.IDJoueur){
                 territoireJoueur.add(territoires.get(i));
             }
 
@@ -273,8 +273,18 @@ public class Plateau {
 
     }
 
+    public ArrayList<Territoire> ListeTerritoirePourUnJoueurAvecVoisins( ArrayList<Territoire> territoires, Joueur joueur){
 
-    public ArrayList<Territoire> GetTerritoireVoisin(Territoire territoire){
+        ArrayList<Territoire> territoireJoueur =  ListeTerritoirePourUnJoueur(territoires,joueur);
+        ArrayList<Territoire> territoireJoueurAvecVoisins = new ArrayList<Territoire>();
+
+        return territoireJoueurAvecVoisins;
+
+
+    }
+
+
+    public ArrayList<Territoire> GetTerritoireVoisin(Territoire territoire, Joueur joueur){
 
         ArrayList<Territoire> territoireVoisin = new ArrayList<Territoire>();
 
@@ -288,7 +298,23 @@ public class Plateau {
     }
 
 
+    public Territoire GetTerritoireParID(int id){
 
+        Territoire result = ListeTerritoire.get(id);
+        for(int i = 0; i <ListeTerritoire.size();i++) {
+            if(ListeTerritoire.get(i).IDTerritoire == id){
+                result = ListeTerritoire.get(i);
+            }
+        }
+        return result;
+    }
+
+    public void DeplacerTroupe(Territoire t1, Territoire t2, int nbTroupe){
+
+        t1.SetTroupe(t1.troupe - nbTroupe);
+        t2.SetTroupe(t2.troupe + nbTroupe);
+
+    }
 
 
 
