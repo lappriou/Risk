@@ -80,21 +80,32 @@ public class Main {
 
         Terridefenseur = plateau.GetTerritoireParID(str);
 
-
-        System.out.println("Choisis le nombre de troupe que tu veux mettre pour cette attaque sachant que c'est "+ Terriattaquant);
         defenseur = Terridefenseur.Roi;
+        System.out.println("Choisis le nombre de troupe que tu veux mettre pour cette attaque sachant que c'est "+ Terriattaquant.troupe+ "le max. Le defenseur a " + Terridefenseur.troupe);
 
-        int nbTroupeAttaquant;
 
+        int nbTroupeAttaquant = Integer.parseInt(sc.nextLine());
+
+        Terriattaquant.troupe -= nbTroupeAttaquant;
         System.out.println("Le combat commence");
 
-        while(Terridefenseur.troupe > 0) {
-            CombatDetailConsole(Terriattaquant, Terridefenseur);
+        while(Terridefenseur.troupe > 0 && nbTroupeAttaquant > 0) {
+            nbTroupeAttaquant = CombatDetailConsole(Terriattaquant, Terridefenseur, nbTroupeAttaquant);
         }
+
+        if(Terridefenseur.troupe> 0){
+            Terridefenseur.SetJoueur(attaquant);
+            Terridefenseur.troupe = nbTroupeAttaquant;
+            System.out.println("Bravo a" + attaquant.surname +" pour avoir remporter " + Terridefenseur.IDTerritoire+". Il dispose maintenant d'une troupe de " + Terridefenseur.troupe);
+        }
+        else{
+            System.out.println("Bravo a" + defenseur +" pour avoir defendu " + Terridefenseur.IDTerritoire+". Il dispose maintenant d'une troupe de " + Terridefenseur.troupe);
+        }
+
 
     }
 
-    public static void CombatDetailConsole(Territoire territoireAttaquant, Territoire territoireDefenseur){
+    public static int CombatDetailConsole(Territoire territoireAttaquant, Territoire territoireDefenseur, int nbTroupeAttaquant){
         Scanner sc = new Scanner(System.in);
         ArrayList<Integer> DesAttaquant = new ArrayList<Integer>();
         ArrayList<Integer> DesDefenseur = new ArrayList<Integer>();
@@ -126,9 +137,8 @@ public class Main {
                     sc.nextLine();
                 }
                 else{
-                    territoireAttaquant.troupe -= DesDefenseur.get(i) - DesAttaquant.get(i);
+                    nbTroupeAttaquant -= DesDefenseur.get(i) - DesAttaquant.get(i);
                 }
-
 
             }
         }
@@ -146,7 +156,7 @@ public class Main {
         System.out.println("Ce combat fut fatal, il reste "+ territoireAttaquant.troupe+" sur le territoire de " + attaquant.surname);
         System.out.println("Ce combat fut fatal, il reste "+ territoireDefenseur.troupe+" sur le territoire de " + defenseur.surname);
         sc.nextLine();
-
+        return nbTroupeAttaquant;
     }
 
     public static ArrayList<Couleur> ChargerListeCouleurDepart(){
