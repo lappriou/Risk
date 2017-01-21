@@ -6,6 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        Scanner sc = new Scanner(System.in);
         ArrayList<Couleur> ListeCouleurs = ChargerListeCouleurDepart();
         ArrayList<Joueur> ListeJoueur = chargerJoueurConsole(ListeCouleurs);
 
@@ -17,12 +18,45 @@ public class Main {
         Joueur Defenseur;
         ArrayList<Territoire> territoiresDuJoueur;
         int nextJoueur = 0;
+
         plateau.AttributionTerritoire(plateau.ListeTerritoire, ListeJoueur);
         plateau.ListeTerritoire = PlacementDesTroupesConsole(plateau,ListeJoueur);
         while(ListeJoueur.size() > 1){
             Attaquant = ListeJoueur.get(nextJoueur);
 
-            CombatConsole(plateau,Attaquant);
+            System.out.println("C'est au tour de "+Attaquant.surname);
+            sc.nextLine();
+
+            ArrayList<Territoire> territoiresDuJoueursAvecVoisins = plateau.ListeTerritoirePourUnJoueur(plateau.ListeTerritoire, Attaquant);
+            ArrayList<Territoire> territoireVoisin = new ArrayList<Territoire>();
+
+            System.out.println("Tes territoires");
+
+            for(int i = 0; i < territoiresDuJoueursAvecVoisins.size(); i++){
+                System.out.println("    Le territoire: " + territoiresDuJoueursAvecVoisins.get(i).IDTerritoire + ". Il possède "+ territoiresDuJoueursAvecVoisins.get(i).troupe);
+                territoireVoisin = plateau.GetTerritoireVoisin(territoiresDuJoueursAvecVoisins.get(i),Attaquant);
+                System.out.println("        Ces voisins sont: ");
+                for(int o = 0; o < territoireVoisin.size(); o++){
+                    System.out.println("            Le territoire: " + territoireVoisin.get(o).IDTerritoire + ". Il possède " + territoireVoisin.get(o).troupe + " et appartient au joueur "+ territoireVoisin.get(o).Roi.surname);
+                }
+
+
+            }
+
+            System.out.println("Que veux tu faire?");
+            System.out.println("    0: Attaquer ?");
+            System.out.println("    1: Deplacer une troupe ?");
+            int choix = Integer.parseInt(sc.nextLine());
+            switch(choix){
+                case 0:{
+                    CombatConsole(plateau,Attaquant);
+                }
+
+
+            }
+
+
+
             if(nextJoueur < ListeJoueur.size()-1) {
                 nextJoueur++;
             }
@@ -51,24 +85,7 @@ public class Main {
         Territoire Terridefenseur;
 
 
-        System.out.println("C'est au tour de "+joueur.surname);
-
-
-        ArrayList<Territoire> territoiresDuJoueursAvecVoisins = plateau.ListeTerritoirePourUnJoueur(plateau.ListeTerritoire, attaquant);
-        ArrayList<Territoire> territoireVoisin = new ArrayList<Territoire>();
-
-        System.out.println("Choisis ton territoire d'attaque");
-
-        for(int i = 0; i < territoiresDuJoueursAvecVoisins.size(); i++){
-            System.out.println("    Le territoire: " + territoiresDuJoueursAvecVoisins.get(i).IDTerritoire + ". Il possède "+ territoiresDuJoueursAvecVoisins.get(i).troupe);
-            territoireVoisin = plateau.GetTerritoireVoisin(territoiresDuJoueursAvecVoisins.get(i),attaquant);
-            System.out.println("        Ces voisins sont: ");
-            for(int o = 0; o < territoireVoisin.size(); o++){
-                System.out.println("            Le territoire: " + territoireVoisin.get(o).IDTerritoire + ". Il possède " + territoireVoisin.get(o).troupe + " et appartient au joueur "+ territoireVoisin.get(o).Roi.surname);
-            }
-
-
-        }
+        System.out.println("Indique le territoire avec lequel tu comptes attaqué");
 
         int str =Integer.parseInt(sc.nextLine()) ;
 
