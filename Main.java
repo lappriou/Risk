@@ -52,6 +52,9 @@ public class Main {
                     CombatConsole(plateau,Attaquant);
                 }
 
+                case 1:{
+                    DeplacementTroupeConsole(plateau, Attaquant);
+                }
 
             }
 
@@ -69,7 +72,39 @@ public class Main {
 
 
 
+    public static void DeplacementTroupeConsole(Plateau plateau, Joueur joueur)
+    {
 
+        Scanner sc = new Scanner(System.in);
+
+
+        Territoire TerriDepart;
+
+        Territoire TerriArrive;
+
+
+        System.out.println("Indique le territoire de depart");
+
+        int str =Integer.parseInt(sc.nextLine()) ;
+
+        TerriDepart = plateau.GetTerritoireParID(str);
+
+        System.out.println("Indique le territoire d'arrivé");
+
+        str =Integer.parseInt(sc.nextLine()) ;
+
+        TerriArrive = plateau.GetTerritoireParID(str);
+        System.out.println("Choisis le nombre de troupe que tu veux mettre pour cette attaque sachant que c'est "+ TerriDepart.troupe+ "le max. Le defenseur a " + TerriArrive.troupe);
+
+
+
+        int nbTroupeDeplacer = Integer.parseInt(sc.nextLine());
+
+        plateau.DeplacerTroupe(TerriDepart,TerriArrive,nbTroupeDeplacer);
+        System.out.println("Le nombre de troupe est maintenant de "+ TerriDepart.troupe+" sur le territoire "+ TerriDepart.IDTerritoire+ ". Et  " + TerriArrive.troupe+" sur le territoire "+ TerriArrive.IDTerritoire);
+
+
+    }
 
 
 
