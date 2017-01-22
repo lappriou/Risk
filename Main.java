@@ -140,9 +140,25 @@ public class Main {
 
         Terriattaquant.troupe -= nbTroupeAttaquant;
         System.out.println("Le combat commence");
+        nbTroupeAttaquant = CombatDetailConsole(Terriattaquant, Terridefenseur, nbTroupeAttaquant);
 
         while(Terridefenseur.troupe > 0 && nbTroupeAttaquant > 0) {
-            nbTroupeAttaquant = CombatDetailConsole(Terriattaquant, Terridefenseur, nbTroupeAttaquant);
+
+
+            System.out.println("Que veux tu faire?");
+            System.out.println("    0: Continuer?");
+            System.out.println("    1: Repli ?");
+            int choix = Integer.parseInt(sc.nextLine());
+            switch (choix){
+                case 0:
+                    nbTroupeAttaquant = CombatDetailConsole(Terriattaquant, Terridefenseur, nbTroupeAttaquant);
+                case 1:{
+                    Terriattaquant.troupe += nbTroupeAttaquant;
+                    nbTroupeAttaquant = 0;
+                }
+
+
+            }
         }
 
         if(Terridefenseur.troupe> 0){
