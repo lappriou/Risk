@@ -1,38 +1,49 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
-import java.util.Random;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.text.JTextComponent;
+import java.awt.*;
+import java.util.List;
+
 public class Main {
+    static Plateau plateau = Plateau.getInstance();
+    static Territoire territoireAttaque;
+    static Territoire territoiredefendu;
+    static Joueur Attaquant;
+    static Joueur Defenseur;
+    static ArrayList<Territoire> territoiresDuJoueur;
 
     public static void main(String[] args) {
 
+
         Scanner sc = new Scanner(System.in);
+
+
+
+
+
         ArrayList<Couleur> ListeCouleurs = ChargerListeCouleurDepart();
         ArrayList<Joueur> ListeJoueur = chargerJoueurConsole(ListeCouleurs);
 
 
-        Plateau plateau = new Plateau();
-        Territoire territoireAttaque;
-        Territoire territoiredefendu;
-        Joueur Attaquant;
-        Joueur Defenseur;
-        ArrayList<Territoire> territoiresDuJoueur;
+
         int nextJoueur = 0;
 
         plateau.AttributionTerritoire(plateau.ListeTerritoire, ListeJoueur);
         plateau.ListeTerritoire = PlacementDesTroupesConsole(plateau,ListeJoueur);
         while(ListeJoueur.size() > 1){
             Attaquant = ListeJoueur.get(nextJoueur);
-
+            JFramePlateau f = new JFramePlateau();
+            JFramePlateau.setTitrePanelGauche(Attaquant.surname);
+            f.build();
             System.out.println("C'est au tour de "+Attaquant.surname);
             sc.nextLine();
 
-            ArrayList<Territoire> territoiresDuJoueursAvecVoisins = plateau.ListeTerritoirePourUnJoueur(plateau.ListeTerritoire, Attaquant);
-            ArrayList<Territoire> territoireVoisin = new ArrayList<Territoire>();
+            List<Territoire> territoiresDuJoueursAvecVoisins = plateau.ListeTerritoirePourUnJoueur(plateau.ListeTerritoire, Attaquant);
+            List<Territoire> territoireVoisin = new ArrayList<Territoire>();
 
             System.out.println("Tes territoires");
 
-            for(int i = 0; i < territoiresDuJoueursAvecVoisins.size(); i++){
+            /*for(int i = 0; i < territoiresDuJoueursAvecVoisins.size(); i++){
                 System.out.println("    Le territoire: " + territoiresDuJoueursAvecVoisins.get(i).IDTerritoire + ". Il possède "+ territoiresDuJoueursAvecVoisins.get(i).troupe);
                 territoireVoisin = plateau.GetTerritoireVoisin(territoiresDuJoueursAvecVoisins.get(i),Attaquant);
                 System.out.println("        Ces voisins sont: ");
@@ -41,22 +52,13 @@ public class Main {
                 }
 
 
-            }
+            }*/
 
             System.out.println("Que veux tu faire?");
             System.out.println("    0: Attaquer ?");
             System.out.println("    1: Deplacer une troupe ?");
-            int choix = Integer.parseInt(sc.nextLine());
-            switch(choix){
-                case 0:{
-                    CombatConsole(plateau,Attaquant);
-                }
 
-                case 1:{
-                    DeplacementTroupeConsole(plateau, Attaquant);
-                }
 
-            }
 
 
 
@@ -72,7 +74,7 @@ public class Main {
 
 
 
-    public static void DeplacementTroupeConsole(Plateau plateau, Joueur joueur)
+    public static void DeplacementTroupeConsole()
     {
 
         Scanner sc = new Scanner(System.in);
@@ -109,9 +111,9 @@ public class Main {
 
 
 
-    public static void CombatConsole(Plateau plateau, Joueur joueur){
+    public static void CombatConsole(){
 
-        Joueur attaquant = joueur;
+        Joueur attaquant = Attaquant;
         Scanner sc = new Scanner(System.in);
         Joueur defenseur;
 
@@ -281,7 +283,7 @@ public class Main {
     {
         Scanner sc = new Scanner(System.in);
         System.out.println("Placer vos troupes");
-        ArrayList<Territoire> territoiresDuJoueur = new ArrayList<Territoire>();
+        List<Territoire> territoiresDuJoueur = new ArrayList<Territoire>();
         for(int i = 0; i< joueurs.size(); i++)
         {
             System.out.println("Joueur" + i);
@@ -299,5 +301,15 @@ public class Main {
 
         }
         return plateau.ListeTerritoire;
+    }
+
+
+
+    public static List<Territoire> GetTerritoireAttaquant(){
+        return plateau.ListeTerritoirePourUnJoueur(plateau.ListeTerritoire,Attaquant);
+    }
+
+    public static List<Territoire> GetTerritoireVoisin(Territoire territoire){
+        return plateau.GetTerritoireVoisin(territoire);
     }
 }

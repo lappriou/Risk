@@ -16,6 +16,18 @@ public class Plateau {
 
     }
 
+    static private Plateau instance;
+    static public Plateau getInstance()
+    {
+        if(instance == null)
+        {
+            instance = new Plateau();
+
+        }
+
+        return instance;
+    }
+
     public int[][] GenererMatriceVoisin(){
 
         int[][] territoire = new int [42][42];
@@ -223,10 +235,10 @@ public class Plateau {
     }
 
 
-    public ArrayList<Territoire> AttributionTerritoire(ArrayList<Territoire> Listterritoires,ArrayList<Joueur> joueurs){
+    public List<Territoire> AttributionTerritoire(ArrayList<Territoire> Listterritoires,ArrayList<Joueur> joueurs){
 
         int nbJoueurs = joueurs.size();
-        ArrayList<Territoire> territoires = Listterritoires;
+        List<Territoire> territoires = Listterritoires;
         int IDJoueur = 0;
         int IDTerritoire;
         ArrayList<Integer> shuffle = new ArrayList<Integer>(territoires.size());
@@ -258,9 +270,9 @@ public class Plateau {
     }
 
 
-    public ArrayList<Territoire> ListeTerritoirePourUnJoueur( ArrayList<Territoire> territoires, Joueur joueur){
+    public List<Territoire> ListeTerritoirePourUnJoueur( ArrayList<Territoire> territoires, Joueur joueur){
 
-        ArrayList<Territoire> territoireJoueur = new ArrayList<Territoire>();
+        List<Territoire> territoireJoueur = new ArrayList<Territoire>();
 
         for(int i = 0; i < territoires.size(); i++){
             if(territoires.get(i).Roi.IDJoueur == joueur.IDJoueur){
@@ -273,10 +285,10 @@ public class Plateau {
 
     }
 
-    public ArrayList<Territoire> ListeTerritoirePourUnJoueurAvecVoisins( ArrayList<Territoire> territoires, Joueur joueur){
+    public List<Territoire> ListeTerritoirePourUnJoueurAvecVoisins( ArrayList<Territoire> territoires, Joueur joueur){
 
-        ArrayList<Territoire> territoireJoueur =  ListeTerritoirePourUnJoueur(territoires,joueur);
-        ArrayList<Territoire> territoireJoueurAvecVoisins = new ArrayList<Territoire>();
+        List<Territoire> territoireJoueur =  ListeTerritoirePourUnJoueur(territoires,joueur);
+        List<Territoire> territoireJoueurAvecVoisins = new ArrayList<Territoire>();
 
         return territoireJoueurAvecVoisins;
 
@@ -284,7 +296,7 @@ public class Plateau {
     }
 
 
-    public ArrayList<Territoire> GetTerritoireVoisin(Territoire territoire, Joueur joueur){
+    public ArrayList<Territoire> GetTerritoireVoisin(Territoire territoire){
 
         ArrayList<Territoire> territoireVoisin = new ArrayList<Territoire>();
 
@@ -296,6 +308,8 @@ public class Plateau {
         }
         return territoireVoisin;
     }
+
+
 
 
     public Territoire GetTerritoireParID(int id){

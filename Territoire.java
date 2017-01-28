@@ -20,4 +20,9 @@ public class Territoire {
         this.troupe = newNumberTroupe;
     }
 
+
+    public String toString(){
+        return IDTerritoire + " avec " + troupe + " troupes et appartient a " + Roi.surname;
+    }
+
 }
