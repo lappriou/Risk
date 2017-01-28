@@ -235,10 +235,10 @@ public class Plateau {
     }
 
 
-    public List<Territoire> AttributionTerritoire(ArrayList<Territoire> Listterritoires,ArrayList<Joueur> joueurs){
+    public List<Territoire> AttributionTerritoire(ArrayList<Joueur> joueurs){
 
         int nbJoueurs = joueurs.size();
-        List<Territoire> territoires = Listterritoires;
+        List<Territoire> territoires = ListeTerritoire;
         int IDJoueur = 0;
         int IDTerritoire;
         ArrayList<Integer> shuffle = new ArrayList<Integer>(territoires.size());

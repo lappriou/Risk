@@ -11,64 +11,22 @@ public class Main {
     static Joueur Attaquant;
     static Joueur Defenseur;
     static ArrayList<Territoire> territoiresDuJoueur;
+    static ArrayList<Couleur> ListeCouleurs = ChargerListeCouleurDepart();
+    static ArrayList<Joueur> ListeJoueur = chargerJoueurConsole(ListeCouleurs);
+    static int nextJoueur = 0;
+
+    static int TroupeAttaque;
+
 
     public static void main(String[] args) {
 
 
-        Scanner sc = new Scanner(System.in);
+
+                plateau.AttributionTerritoire(ListeJoueur);
+                PlacementDesTroupesConsole(plateau, ListeJoueur);
+                InitialisationTour();
 
 
-
-
-
-        ArrayList<Couleur> ListeCouleurs = ChargerListeCouleurDepart();
-        ArrayList<Joueur> ListeJoueur = chargerJoueurConsole(ListeCouleurs);
-
-
-
-        int nextJoueur = 0;
-
-        plateau.AttributionTerritoire(plateau.ListeTerritoire, ListeJoueur);
-        plateau.ListeTerritoire = PlacementDesTroupesConsole(plateau,ListeJoueur);
-        while(ListeJoueur.size() > 1){
-            Attaquant = ListeJoueur.get(nextJoueur);
-            JFramePlateau f = new JFramePlateau();
-            JFramePlateau.setTitrePanelGauche(Attaquant.surname);
-            f.build();
-            System.out.println("C'est au tour de "+Attaquant.surname);
-            sc.nextLine();
-
-            List<Territoire> territoiresDuJoueursAvecVoisins = plateau.ListeTerritoirePourUnJoueur(plateau.ListeTerritoire, Attaquant);
-            List<Territoire> territoireVoisin = new ArrayList<Territoire>();
-
-            System.out.println("Tes territoires");
-
-            /*for(int i = 0; i < territoiresDuJoueursAvecVoisins.size(); i++){
-                System.out.println("    Le territoire: " + territoiresDuJoueursAvecVoisins.get(i).IDTerritoire + ". Il possède "+ territoiresDuJoueursAvecVoisins.get(i).troupe);
-                territoireVoisin = plateau.GetTerritoireVoisin(territoiresDuJoueursAvecVoisins.get(i),Attaquant);
-                System.out.println("        Ces voisins sont: ");
-                for(int o = 0; o < territoireVoisin.size(); o++){
-                    System.out.println("            Le territoire: " + territoireVoisin.get(o).IDTerritoire + ". Il possède " + territoireVoisin.get(o).troupe + " et appartient au joueur "+ territoireVoisin.get(o).Roi.surname);
-                }
-
-
-            }*/
-
-            System.out.println("Que veux tu faire?");
-            System.out.println("    0: Attaquer ?");
-            System.out.println("    1: Deplacer une troupe ?");
-
-
-
-
-
-            if(nextJoueur < ListeJoueur.size()-1) {
-                nextJoueur++;
-            }
-            else{
-                nextJoueur = 0;
-            }
-        }
     }
 
 
@@ -110,6 +68,41 @@ public class Main {
 
 
 
+    public static void InitialisationTour(){
+        Attaquant = ListeJoueur.get(nextJoueur);
+
+
+
+        JFramePlateau.setTitrePanelGauche(Attaquant.surname);
+        JFramePlateau f = new JFramePlateau();
+        f.build();
+        System.out.println("C'est au tour de "+Attaquant.surname);
+
+        List<Territoire> territoiresDuJoueursAvecVoisins = plateau.ListeTerritoirePourUnJoueur(plateau.ListeTerritoire, Attaquant);
+        List<Territoire> territoireVoisin = new ArrayList<Territoire>();
+
+        System.out.println("Tes territoires");
+
+            /*for(int i = 0; i < territoiresDuJoueursAvecVoisins.size(); i++){
+                System.out.println("    Le territoire: " + territoiresDuJoueursAvecVoisins.get(i).IDTerritoire + ". Il possède "+ territoiresDuJoueursAvecVoisins.get(i).troupe);
+                territoireVoisin = plateau.GetTerritoireVoisin(territoiresDuJoueursAvecVoisins.get(i),Attaquant);
+                System.out.println("        Ces voisins sont: ");
+                for(int o = 0; o < territoireVoisin.size(); o++){
+                    System.out.println("            Le territoire: " + territoireVoisin.get(o).IDTerritoire + ". Il possède " + territoireVoisin.get(o).troupe + " et appartient au joueur "+ territoireVoisin.get(o).Roi.surname);
+                }
+
+
+            }*/
+
+        if(nextJoueur < ListeJoueur.size()-1) {
+            nextJoueur++;
+        }
+        else{
+            nextJoueur = 0;
+        }
+
+
+    }
 
     public static void CombatConsole(){
 
@@ -142,7 +135,7 @@ public class Main {
 
         Terriattaquant.troupe -= nbTroupeAttaquant;
         System.out.println("Le combat commence");
-        nbTroupeAttaquant = CombatDetailConsole(Terriattaquant, Terridefenseur, nbTroupeAttaquant);
+        nbTroupeAttaquant = CombatDetailConsole();
 
         while(Terridefenseur.troupe > 0 && nbTroupeAttaquant > 0) {
 
@@ -153,7 +146,7 @@ public class Main {
             int choix = Integer.parseInt(sc.nextLine());
             switch (choix){
                 case 0:
-                    nbTroupeAttaquant = CombatDetailConsole(Terriattaquant, Terridefenseur, nbTroupeAttaquant);
+                    nbTroupeAttaquant = CombatDetailConsole();
                 case 1:{
                     Terriattaquant.troupe += nbTroupeAttaquant;
                     nbTroupeAttaquant = 0;
@@ -163,7 +156,7 @@ public class Main {
             }
         }
 
-        if(Terridefenseur.troupe> 0){
+        if(Terridefenseur.troupe<= 0){
             Terridefenseur.SetJoueur(attaquant);
             Terridefenseur.troupe = nbTroupeAttaquant;
             System.out.println("Bravo a" + attaquant.surname +" pour avoir remporter " + Terridefenseur.IDTerritoire+". Il dispose maintenant d'une troupe de " + Terridefenseur.troupe);
@@ -175,12 +168,12 @@ public class Main {
 
     }
 
-    public static int CombatDetailConsole(Territoire territoireAttaquant, Territoire territoireDefenseur, int nbTroupeAttaquant){
+    public static int CombatDetailConsole(){
         Scanner sc = new Scanner(System.in);
         ArrayList<Integer> DesAttaquant = new ArrayList<Integer>();
         ArrayList<Integer> DesDefenseur = new ArrayList<Integer>();
-        Joueur attaquant = territoireAttaquant.Roi;
-        Joueur defenseur = territoireDefenseur.Roi;
+        Joueur attaquant = territoireAttaque.Roi;
+        Joueur defenseur = territoiredefendu.Roi;
         System.out.println(" L'attaquant "+ attaquant.surname+" lance les dés et obtiens: ");
 
         for(int i =0; i<3; i++){
@@ -202,12 +195,12 @@ public class Main {
         if(DesAttaquant.size() > DesDefenseur.size()){
             for(int i = 0; i < DesDefenseur.size(); i++){
                 if(DesAttaquant.get(i) > DesDefenseur.get(i)){
-                    territoireDefenseur.troupe -= DesAttaquant.get(i) - DesDefenseur.get(i);
+                    territoiredefendu.troupe -= DesAttaquant.get(i) - DesDefenseur.get(i);
 
                     sc.nextLine();
                 }
                 else{
-                    nbTroupeAttaquant -= DesDefenseur.get(i) - DesAttaquant.get(i);
+                    territoireAttaque.troupe -= DesDefenseur.get(i) - DesAttaquant.get(i);
                 }
 
             }
@@ -216,17 +209,68 @@ public class Main {
         else{
             for(int i = 0; i < DesAttaquant.size(); i++){
                 if(DesAttaquant.get(i) > DesDefenseur.get(i)){
-                    territoireDefenseur.troupe -= DesAttaquant.get(i) - DesDefenseur.get(i);
+                    territoiredefendu.troupe -= DesAttaquant.get(i) - DesDefenseur.get(i);
                 }
                 else{
-                    territoireAttaquant.troupe -= DesDefenseur.get(i) - DesAttaquant.get(i);
+                    territoireAttaque.troupe -= DesDefenseur.get(i) - DesAttaquant.get(i);
                 }
             }
         }
-        System.out.println("Ce combat fut fatal, il reste "+ territoireAttaquant.troupe+" sur le territoire de " + attaquant.surname);
-        System.out.println("Ce combat fut fatal, il reste "+ territoireDefenseur.troupe+" sur le territoire de " + defenseur.surname);
+        System.out.println("Ce combat fut fatal, il reste "+ territoiredefendu.troupe+" sur le territoire de " + attaquant.surname);
+        System.out.println("Ce combat fut fatal, il reste "+ territoiredefendu.troupe+" sur le territoire de " + defenseur.surname);
         sc.nextLine();
-        return nbTroupeAttaquant;
+        return TroupeAttaque;
+    }
+
+    public static void CombatDetail(){
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Integer> DesAttaquant = new ArrayList<Integer>();
+        ArrayList<Integer> DesDefenseur = new ArrayList<Integer>();
+        Joueur attaquant = territoireAttaque.Roi;
+        Joueur defenseur = territoiredefendu.Roi;
+        System.out.println(" L'attaquant "+ attaquant.surname+" lance les dés et obtiens: ");
+
+        for(int i =0; i<3; i++){
+            DesAttaquant.add(LancerDes());
+
+        }
+        Collections.sort(DesAttaquant, Collections.reverseOrder());
+        System.out.println(DesAttaquant);
+
+        System.out.println(" Le defenseur "+ defenseur.surname+" lance les dés et obtiens: ");
+        for(int i =0; i<2; i++){
+            DesDefenseur.add(LancerDes());
+
+        }
+        Collections.sort(DesDefenseur, Collections.reverseOrder());
+        System.out.println(DesDefenseur);
+
+
+        if(DesAttaquant.size() > DesDefenseur.size()){
+            for(int i = 0; i < DesDefenseur.size(); i++){
+                if(DesAttaquant.get(i) > DesDefenseur.get(i)){
+                    territoiredefendu.troupe -= DesAttaquant.get(i) - DesDefenseur.get(i);
+
+                }
+                else{
+                    TroupeAttaque -= DesDefenseur.get(i) - DesAttaquant.get(i);
+                }
+
+            }
+        }
+
+        else{
+            for(int i = 0; i < DesAttaquant.size(); i++){
+                if(DesAttaquant.get(i) > DesDefenseur.get(i)){
+                    territoiredefendu.troupe -= DesAttaquant.get(i) - DesDefenseur.get(i);
+                }
+                else{
+                    TroupeAttaque -= DesDefenseur.get(i) - DesAttaquant.get(i);
+                }
+            }
+        }
+        System.out.println("Ce combat fut fatal, il reste "+ TroupeAttaque+" sur le territoire de " + attaquant.surname);
+        System.out.println("Ce combat fut fatal, il reste "+ territoiredefendu.troupe+" sur le territoire de " + defenseur.surname);
     }
 
     public static ArrayList<Couleur> ChargerListeCouleurDepart(){
