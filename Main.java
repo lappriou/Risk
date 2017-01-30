@@ -353,6 +353,10 @@ public class Main {
         return plateau.ListeTerritoirePourUnJoueur(plateau.ListeTerritoire,Attaquant);
     }
 
+    public static List<Territoire> GetTerritoireJoueur(Joueur joueur){
+        return plateau.ListeTerritoirePourUnJoueur(plateau.ListeTerritoire,joueur);
+    }
+
     public static List<Territoire> GetTerritoireVoisin(Territoire territoire){
         return plateau.GetTerritoireVoisin(territoire);
     }

@@ -124,6 +124,7 @@ public class JFramePlateau extends JFrame implements ActionListener {
                     Main.territoiredefendu.troupe += test;
                     Main.InitialisationTour();
                     this.dispose();
+
                 }
 
 
@@ -153,6 +154,12 @@ public class JFramePlateau extends JFrame implements ActionListener {
                     InformationDefenseur.setText("Vous avez perdu avec disgrace");
                     InformationAttaquant.setText("Vous avez gagnez avec bavoure le territoire " + Main.territoiredefendu.IDTerritoire + " et vous disposez sur ce territoire de "+ Main.territoiredefendu.troupe + "troupes");
 
+                    if(Main.GetTerritoireJoueur(Main.Defenseur).size() == 0)
+                    {
+                        Main.ListeJoueur.remove(Main.Defenseur);
+                        InformationDefenseur.setText("Vous avez été exterminer");
+                    }
+
                 }
 
                 PanelGaucheAction.add(BoutonFinDeTour);
@@ -160,6 +167,8 @@ public class JFramePlateau extends JFrame implements ActionListener {
         }
 
         else if(source == BoutonFinDeTour){
+
+
             Main.InitialisationTour();
             this.dispose();
         }
