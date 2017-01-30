@@ -12,11 +12,9 @@ import java.util.*;
 
 public class JFramePlateau extends JFrame implements ActionListener {
 
-    static String GaucheTitreString;
-
     public JButton attaquer = new JButton("Attaquer");
 
-
+    public JButton retour = new JButton("Retour");
     public JButton deplacer = new JButton("Deplacer");
     public JPanel PanelGauche = new JPanel();
 
@@ -61,6 +59,7 @@ public class JFramePlateau extends JFrame implements ActionListener {
         BoutonContinuerAttaque.addActionListener(this);
         BoutonRepliAttaque.addActionListener(this);
         BoutonFinDeTour.addActionListener(this);
+        retour.addActionListener(this);
         // Construction de l'interface gauche
 
 
@@ -75,7 +74,7 @@ public class JFramePlateau extends JFrame implements ActionListener {
 
         JPanel PanelGaucheTitre = new JPanel();
 
-        JLabel GaucheTitre= new JLabel(GaucheTitreString);
+        JLabel GaucheTitre= new JLabel(Main.Attaquant.surname);
 
         PanelGaucheTitre.setSize(60,20);
         GaucheTitre.setVisible(true);
@@ -86,6 +85,7 @@ public class JFramePlateau extends JFrame implements ActionListener {
         PanelGaucheButtonChoix.add(attaquer, BorderLayout.WEST);
         PanelGaucheButtonChoix.add(deplacer, BorderLayout.EAST);
 
+
         PanelGauche.add(PanelGaucheButtonChoix,BorderLayout.CENTER);
 
         PanelGauche.setVisible(true);
@@ -94,18 +94,23 @@ public class JFramePlateau extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-        if(source == attaquer){
+        if(source == attaquer) {
             buildSelectionTerritoireDepart();
             EstUneAttaque = true;
-
-
-        }else if(source == deplacer){
+        }
+        if(source == retour){
+            ValiderTerritoireFin.setVisible(false);
+            JListTerritoireFin.setVisible(false);
+            buildSelectionTerritoireDepart();
+        }
+        else if(source == deplacer){
             buildSelectionTerritoireDepart();
         }else if(source == ValiderTerritoireDepart && JListTerritoireDepart.isSelectionEmpty() == false){
                 Main.territoireAttaque = JListTerritoireDepart.getSelectedValue();
                 buildSelectionTerritoireArrive();
 
         }else if(source == ValiderTerritoireFin && JListTerritoireFin.isSelectionEmpty() == false){
+
             Main.territoiredefendu = JListTerritoireFin.getSelectedValue();
             buildNbTroupes();
         }
@@ -113,7 +118,7 @@ public class JFramePlateau extends JFrame implements ActionListener {
 
             int test = Integer.parseInt(SelectionNbJoueurs.getText());
 
-            if(test < Main.territoireAttaque.troupe - 1) {
+            if(test < Main.territoireAttaque.troupe) {
                 Main.TroupeAttaque = test;
                 Main.territoireAttaque.troupe -= test;
                 if(EstUneAttaque) {
@@ -132,6 +137,14 @@ public class JFramePlateau extends JFrame implements ActionListener {
 
 
 
+        }
+
+        else if(source == BoutonRepliAttaque){
+            Main.territoireAttaque.troupe =+ Main.TroupeAttaque;
+            BoutonContinuerAttaque.setVisible(false);
+            BoutonRepliAttaque.setVisible(false);
+            InformationAttaquant.setText("Vous vous etes repliez, il reste dorenavent " + Main.territoireAttaque.troupe +" troupes sur ce territoires");
+            PanelGauche.add(BoutonFinDeTour);
         }
         else if(source == BoutonContinuerAttaque){
             Main.CombatDetail();
@@ -168,7 +181,6 @@ public class JFramePlateau extends JFrame implements ActionListener {
 
         else if(source == BoutonFinDeTour){
 
-
             Main.InitialisationTour();
             this.dispose();
         }
@@ -177,15 +189,12 @@ public class JFramePlateau extends JFrame implements ActionListener {
     }
 
 
-    public static void setTitrePanelGauche( String gaucheTitre){
-        GaucheTitreString = gaucheTitre;
-    }
-
 
 
     public void buildSelectionTerritoireDepart(){
 
-
+        retour.setVisible(false);
+        ValiderTerritoireDepart.setVisible(true);
         PanelGauche.remove(PanelGaucheButtonChoix);
 
 
@@ -208,13 +217,16 @@ public class JFramePlateau extends JFrame implements ActionListener {
     }
 
     public void buildSelectionTerritoireArrive(){
+        ValiderTerritoireFin.setVisible(true);
+        ValiderTerritoireFin.setVisible(true);
         ValiderTerritoireDepart.setVisible(false);
         JListTerritoireDepart.setVisible(false);
-
+        retour.setVisible(true);
 
         if(EstUneAttaque) {
             InformationAttaquant.setText("Choisis le territoire que tu attaques");
             JListTerritoireFin = new JList<>(ConvertToListModel(Main.GetTerritoireVoisin(Main.territoireAttaque)));
+            PanelGaucheAction.add(retour);
         }
         else{
             JListTerritoireFin = new JList<>(ConvertToListModel(Main.GetTerritoireAttaquant()));
@@ -252,8 +264,8 @@ public class JFramePlateau extends JFrame implements ActionListener {
     }
 
     public void buildNbTroupes(){
-
-        InformationAttaquant.setText("Choisir le nombre de troupe a mobiliser, le max est " + Main.territoireAttaque.troupe);
+        retour.setVisible(false);
+        InformationAttaquant.setText("Choisir le nombre de troupe a mobiliser, le max est " + (Main.territoireAttaque.troupe - 1));
         ValiderTerritoireFin.setVisible(false);
         JListTerritoireFin.setVisible(false);
 

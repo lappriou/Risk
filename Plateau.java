@@ -16,6 +16,9 @@ public class Plateau {
 
     }
 
+
+
+
     static private Plateau instance;
     static public Plateau getInstance()
     {
@@ -232,6 +235,12 @@ public class Plateau {
 
         return territoires;
 
+    }
+
+    public void GainTroupes(){
+        for(int i = 0; i < ListeTerritoire.size(); i++){
+            ListeTerritoire.get(i).troupe += 1;
+        }
     }
 
 

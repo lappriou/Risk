@@ -73,32 +73,22 @@ public class Main {
 
 
 
-        JFramePlateau.setTitrePanelGauche(Attaquant.surname);
+
         JFramePlateau f = new JFramePlateau();
         f.build();
-        System.out.println("C'est au tour de "+Attaquant.surname);
 
         List<Territoire> territoiresDuJoueursAvecVoisins = plateau.ListeTerritoirePourUnJoueur(plateau.ListeTerritoire, Attaquant);
         List<Territoire> territoireVoisin = new ArrayList<Territoire>();
 
-        System.out.println("Tes territoires");
-
-            /*for(int i = 0; i < territoiresDuJoueursAvecVoisins.size(); i++){
-                System.out.println("    Le territoire: " + territoiresDuJoueursAvecVoisins.get(i).IDTerritoire + ". Il possède "+ territoiresDuJoueursAvecVoisins.get(i).troupe);
-                territoireVoisin = plateau.GetTerritoireVoisin(territoiresDuJoueursAvecVoisins.get(i),Attaquant);
-                System.out.println("        Ces voisins sont: ");
-                for(int o = 0; o < territoireVoisin.size(); o++){
-                    System.out.println("            Le territoire: " + territoireVoisin.get(o).IDTerritoire + ". Il possède " + territoireVoisin.get(o).troupe + " et appartient au joueur "+ territoireVoisin.get(o).Roi.surname);
-                }
-
-
-            }*/
 
         if(nextJoueur < ListeJoueur.size()-1) {
             nextJoueur++;
         }
         else{
+
+
             nextJoueur = 0;
+            Main.plateau.GainTroupes();
         }
 
 
